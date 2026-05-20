@@ -269,4 +269,17 @@
 
   <xacro:ros2_control_sensor_system/>
 
+  <ros2_control name="${robot_namespace}_actuators" type="system">
+    <hardware>
+      <plugin>sura_hardware_interface/ActuatorsSystem</plugin>
+      <param name="environment">$(arg environment)</param>
+    </hardware>
+
+    <joint name="${robot_prefix}bluerov_lights">
+      <command_interface name="pwm_us"/>
+      <state_interface name="pwm_us"/>
+      <param name="channel">12</param>
+    </joint>
+  </ros2_control>
+
 </robot>

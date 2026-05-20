@@ -6,6 +6,7 @@
       inactive:
         - ThrustersSystem
         - SensorsSystem
+        - ActuatorsSystem
 
     thruster_test_controller:
       type: forward_command_controller/ForwardCommandController
@@ -49,6 +50,8 @@
     leak_broadcaster:
       type: sura_sensors/LeakBroadcaster
 
+    lights_controller:
+      type: forward_command_controller/ForwardCommandController
 
 # TODO: estos nombres de los joints tiene que leerlos del xacro de los que son tipo thrusters y en el orden que toca 
 /bluerov/controller/thruster_test_controller:
@@ -66,82 +69,91 @@
 
 /bluerov/controller/body_force:
   ros__parameters:
+    debug.enabled: true
     input_topic: /bluerov/controller/body_force/command
+    output_topic: /bluerov/controller/body_force/output
+    wrench_output_topic: /bluerov/controller/body_force/wrench
 
 /bluerov/controller/body_velocity:
   ros__parameters:
+    debug.enabled: true
     setpoint_topic: /bluerov/controller/body_velocity/setpoint
     navigator_topic: /bluerov/navigator/navigation
     feedforward_topic: /bluerov/controller/depth_hold/feedforward
+    output_topic: /bluerov/controller/body_velocity/output
+    pid_terms_topic: /bluerov/controller/body_velocity/pid_terms
     body_force_controller_name: body_force
 
     kp_x: 100.0
     ki_x: 50.0
     kd_x: 0.0
-    antiwindup_x: 10.0
+    antiwindup_x: 0.5
 
     kp_y: 100.0
     ki_y: 50.0
     kd_y: 0.0
-    antiwindup_y: 10.0
+    antiwindup_y: 0.5
 
     kp_z: 800.0
     ki_z: 400.0
     kd_z: 0.0
-    antiwindup_z: 10.0
+    antiwindup_z: 0.5
 
     kp_roll: 50.0
     ki_roll: 50.0
     kd_roll: 0.0
-    antiwindup_roll: 10.0
+    antiwindup_roll: 0.5
 
     kp_pitch: 50.0
     ki_pitch: 50.0
     kd_pitch: 0.0
-    antiwindup_pitch: 10.0
+    antiwindup_pitch: 0.5
 
     kp_yaw: 15.0
     ki_yaw: 8.0
     kd_yaw: 0.0
-    antiwindup_yaw: 10.0
+    antiwindup_yaw: 0.5
 
 /bluerov/controller/position_hold:
   ros__parameters:
+    debug.enabled: true
     setpoint_topic: /bluerov/controller/position_hold/setpoint
     feedforward_topic: /bluerov/controller/position_hold/feedforward
     navigator_topic: /bluerov/navigator/navigation
+    output_topic: /bluerov/controller/position_hold/output
+    pid_terms_topic: /bluerov/controller/position_hold/pid_terms
     body_velocity_controller_name: body_velocity
     setpoint_frame_id: world_ned
 
     kp_x: 1.0
     ki_x: 0.0
     kd_x: 0.0
-    antiwindup_x: 1.0
+    antiwindup_x: 0.5
 
     kp_y: 1.0
     ki_y: 0.0
     kd_y: 0.0
-    antiwindup_y: 1.0
+    antiwindup_y: 0.5
 
     kp_z: 1.0
     ki_z: 0.0
     kd_z: 0.0
-    antiwindup_z: 1.0
+    antiwindup_z: 0.5
 
     kp_roll: 1.0
     ki_roll: 0.0
     kd_roll: 0.0
-    antiwindup_roll: 1.0
+    antiwindup_roll: 0.5  
 
     kp_pitch: 1.0
     ki_pitch: 0.0
     kd_pitch: 0.0
-    antiwindup_pitch: 1.0
+    antiwindup_pitch: 0.5
 
     kp_yaw: 1.0
     ki_yaw: 0.0
     kd_yaw: 0.0
-    antiwindup_yaw: 1.0
+    antiwindup_yaw: 0.5
 
     linear_feedforward_threshold: 0.001
     angular_feedforward_threshold: 0.001
@@ -149,8 +161,12 @@
 
 /bluerov/controller/stabilize:
   ros__parameters:
+    debug.enabled: true
     feedforward_topic: /bluerov/controller/stabilize/feedforward
     navigator_topic: /bluerov/navigator/navigation
+    setpoint_topic: /bluerov/controller/stabilize/set_point
+    output_topic: /bluerov/controller/stabilize/output
+    pid_terms_topic: /bluerov/controller/stabilize/pid_terms
     body_force_controller_name: body_force
     enable_roll_pitch_service_name: /bluerov/controller/stabilize/enable_roll_pitch
     disable_roll_pitch_service_name: /bluerov/controller/stabilize/disable_roll_pitch
@@ -165,14 +181,17 @@
     kp_roll: 4.0
     ki_roll: 1.0
     kd_roll: 0.0
+    antiwindup_roll: 0.5
 
     kp_pitch: 4.0
     ki_pitch: 1.0
     kd_pitch: 0.0
+    antiwindup_pitch: 0.5
 
     kp_yaw: 4.0
     ki_yaw: 1.0
     kd_yaw: 0.0
+    antiwindup_yaw: 0.5
 
     yaw_command_threshold: 0.001
     roll_command_threshold: 0.001
@@ -180,17 +199,16 @@
 
 /bluerov/controller/depth_hold:
   ros__parameters:
+    debug.enabled: true
     feedforward_topic: /bluerov/controller/depth_hold/feedforward
     navigator_topic: /bluerov/navigator/navigation
     setpoint_topic: /bluerov/controller/depth_hold/set_point
+    output_topic: /bluerov/controller/depth_hold/output
+    pid_terms_topic: /bluerov/controller/depth_hold/pid_terms
     body_force_controller_name: body_force
     enable_roll_pitch_service_name: /bluerov/controller/depth_hold/enable_roll_pitch
     disable_roll_pitch_service_name: /bluerov/controller/depth_hold/disable_roll_pitch
     allow_roll_pitch: false
-    debug:
-      enabled: true
-      depth_topic: /bluerov/controller/depth_hold/debug
-      depth_decimation: 10
     feedforward_gain_x: 1.0
     feedforward_gain_y: 1.0
     feedforward_gain_z: 1.0
@@ -201,19 +219,23 @@
     kp_roll: 4.0
     ki_roll: 1.0
     kd_roll: 0.0
+    antiwindup_roll: 0.5
 
     kp_pitch: 4.0
     ki_pitch: 1.0
     kd_pitch: 0.0
+    antiwindup_pitch: 0.5
 
     kp_yaw: 8.0
     ki_yaw: 1.0
     kd_yaw: 0.0
-
+    antiwindup_yaw: 0.5
 
     kp_depth: 40.0
     ki_depth: 3.0
-    kd_depth: 9.0
+    kd_depth: 0.0
+    depth_bias_force: 5.0
+    antiwindup_depth: 0.5
 
     command_threshold: 0.001
     depth_command_threshold: 0.001
@@ -261,8 +283,8 @@
     sensor_name: dvl_sensor
     frame_id: bluerov/dvl_link
     topic_name: /bluerov/sensors/gps
-    update_rate: 50
-    position_covariance: 0.0
+    update_rate: 2
+    position_covariance: 4.0
 
 /bluerov/controller/battery_broadcaster:
   ros__parameters:
@@ -273,5 +295,12 @@
 /bluerov/controller/leak_broadcaster:
   ros__parameters:
     sensor_name: leak_sensor
+    frame_id: bluerov/main_cylinder
     topic_name: /bluerov/leak_sensors
     update_rate: 1
+
+/bluerov/controller/lights_controller:
+  ros__parameters:
+    joints:
+      - bluerov/bluerov_lights
+    interface_name: pwm_us
