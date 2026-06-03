@@ -9,44 +9,14 @@ from launch_ros.actions import Node
 
 def launch_setup(context, *args, **kwargs):
     robot_namespace = LaunchConfiguration("robot_namespace").perform(context).strip("/")
-    environment = LaunchConfiguration("environment").perform(context)
-    pwm_channels = LaunchConfiguration("pwm_channels").perform(context)
+    robot_description_package = LaunchConfiguration("robot_description_package").perform(context)
+    xacro_file = LaunchConfiguration("xacro_file").perform(context)
+    xacro_arguments = LaunchConfiguration("xacro_arguments").perform(context)
 
-    if environment not in ("sim", "real"):
-        raise RuntimeError(
-            f"Unsupported environment '{environment}'. Use 'sim' or 'real'."
-        )
+    if not os.path.isabs(xacro_file):
+        xacro_file = os.path.join(get_package_share_directory(robot_description_package), xacro_file)
 
-    description_pkg = get_package_share_directory("bluerov_description")
-    hardware_pkg = get_package_share_directory("sura_hardware_interface")
-
-    xacro_file = os.path.join(
-        description_pkg,
-        "urdf",
-        "bluerov.urdf.xacro",
-    )
-
-    csv_file = os.path.join(
-        hardware_pkg,
-        "config",
-        "t200_lookup.csv",
-    )
-
-    xacro_command = [
-        "xacro ",
-        xacro_file,
-        " robot_namespace:=",
-        robot_namespace,
-        " environment:=",
-        environment,
-        " lookup_csv:=",
-        csv_file,
-        " stonefish_topic:=/",
-        robot_namespace,
-        "/controller/thruster_setpoints_sim",
-        " pwm_channels:=",
-        pwm_channels,
-    ]
+    xacro_command = ["xacro ", xacro_file, " ", xacro_arguments]
 
     robot_description = Command(xacro_command)
 
@@ -55,7 +25,6 @@ def launch_setup(context, *args, **kwargs):
             package="robot_state_publisher",
             executable="robot_state_publisher",
             name="robot_state_publisher",
-            namespace=robot_namespace,
             output="screen",
             parameters=[
                 {
@@ -73,9 +42,10 @@ def launch_setup(context, *args, **kwargs):
 def generate_launch_description():
     return LaunchDescription(
         [
-            DeclareLaunchArgument("robot_namespace", default_value="bluerov2"),
-            DeclareLaunchArgument("environment", default_value="real"),
-            DeclareLaunchArgument("pwm_channels", default_value="0,1,2,3,4,5,6,7"),
+            DeclareLaunchArgument("robot_namespace", default_value=""),
+            DeclareLaunchArgument("robot_description_package", default_value="bluerov_description"),
+            DeclareLaunchArgument("xacro_file"),
+            DeclareLaunchArgument("xacro_arguments", default_value=""),
             OpaqueFunction(function=launch_setup),
         ]
     )

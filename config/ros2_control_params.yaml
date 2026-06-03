@@ -8,23 +8,33 @@
         - SensorsSystem
         - ActuatorsSystem
 
+    common_controllers:
+      - thruster_test_controller
+
+    auv_controllers:
+      - body_force
+      - body_velocity
+      - position_hold
+      - stabilize
+      - depth_hold
+
     thruster_test_controller:
       type: forward_command_controller/ForwardCommandController
 
     body_force:
-      type: cirtesub_controllers/BodyForceController
+      type: sura_controllers/auv/BodyForceController
     
     body_velocity:
-      type: cirtesub_controllers/BodyVelocityController
+      type: sura_controllers/auv/BodyVelocityController
 
     position_hold:
-      type: cirtesub_controllers/PositionHoldController
+      type: sura_controllers/auv/PositionHoldController
 
     stabilize:
-      type: cirtesub_controllers/StabilizeController
+      type: sura_controllers/auv/StabilizeController
 
     depth_hold:
-      type: cirtesub_controllers/DepthHoldController
+      type: sura_controllers/auv/DepthHoldController
 
     imu_broadcaster:
       type: imu_sensor_broadcaster/IMUSensorBroadcaster
@@ -84,35 +94,35 @@
     pid_terms_topic: /bluerov/controller/body_velocity/pid_terms
     body_force_controller_name: body_force
 
-    kp_x: 100.0
-    ki_x: 50.0
+    kp_x: 30.0
+    ki_x: 6.0
     kd_x: 0.0
-    antiwindup_x: 0.5
+    antiwindup_x: 1.0
 
-    kp_y: 100.0
-    ki_y: 50.0
+    kp_y: 30.0
+    ki_y: 6.0
     kd_y: 0.0
-    antiwindup_y: 0.5
+    antiwindup_y: 1.0
 
-    kp_z: 800.0
-    ki_z: 400.0
+    kp_z: 80.0
+    ki_z: 20.0
     kd_z: 0.0
-    antiwindup_z: 0.5
+    antiwindup_z: 1.0
 
-    kp_roll: 50.0
-    ki_roll: 50.0
+    kp_roll: 0.0
+    ki_roll: 5.0
     kd_roll: 0.0
-    antiwindup_roll: 0.5
+    antiwindup_roll: 1.0
 
-    kp_pitch: 50.0
-    ki_pitch: 50.0
+    kp_pitch: 0.0
+    ki_pitch: 5.0
     kd_pitch: 0.0
-    antiwindup_pitch: 0.5
+    antiwindup_pitch: 1.0
 
-    kp_yaw: 15.0
-    ki_yaw: 8.0
+    kp_yaw: 5.0
+    ki_yaw: 0.0
     kd_yaw: 0.0
-    antiwindup_yaw: 0.5
+    antiwindup_yaw: 1.0
 
 /bluerov/controller/position_hold:
   ros__parameters:
@@ -126,34 +136,38 @@
     setpoint_frame_id: world_ned
 
     kp_x: 1.0
-    ki_x: 0.0
+    ki_x: 0.5
     kd_x: 0.0
     antiwindup_x: 0.5
 
     kp_y: 1.0
-    ki_y: 0.0
+    ki_y: 0.5
     kd_y: 0.0
     antiwindup_y: 0.5
 
     kp_z: 1.0
-    ki_z: 0.0
+    ki_z: 0.5
     kd_z: 0.0
     antiwindup_z: 0.5
 
-    kp_roll: 1.0
+    kp_roll: 0.0
     ki_roll: 0.0
     kd_roll: 0.0
     antiwindup_roll: 0.5  
 
-    kp_pitch: 1.0
+    kp_pitch: 0.0
     ki_pitch: 0.0
     kd_pitch: 0.0
     antiwindup_pitch: 0.5
 
     kp_yaw: 1.0
-    ki_yaw: 0.0
+    ki_yaw: 0.5
     kd_yaw: 0.0
     antiwindup_yaw: 0.5
+
+    linear_feedforward_threshold: 0.001
+    angular_feedforward_threshold: 0.001
+    feedforward_timeout: 0.25
 
     linear_feedforward_threshold: 0.001
     angular_feedforward_threshold: 0.001
@@ -208,6 +222,14 @@
     body_force_controller_name: body_force
     enable_roll_pitch_service_name: /bluerov/controller/depth_hold/enable_roll_pitch
     disable_roll_pitch_service_name: /bluerov/controller/depth_hold/disable_roll_pitch
+    allow_roll_pitch: false
+    feedforward_gain_x: 1.0
+    feedforward_gain_y: 1.0
+    feedforward_gain_z: 1.0
+    feedforward_gain_roll: 1.0
+    feedforward_gain_pitch: 1.0
+    feedforward_gain_yaw: 1.0
+
     allow_roll_pitch: false
     feedforward_gain_x: 1.0
     feedforward_gain_y: 1.0
@@ -289,14 +311,14 @@
 /bluerov/controller/battery_broadcaster:
   ros__parameters:
     sensor_name: battery_sensor
-    topic_name: /bluerov/battery/status
+    topic_name: /bluerov/sensors/battery
     update_rate: 1
 
 /bluerov/controller/leak_broadcaster:
   ros__parameters:
     sensor_name: leak_sensor
     frame_id: bluerov/main_cylinder
-    topic_name: /bluerov/leak_sensors
+    topic_name: /bluerov/sensors/leak
     update_rate: 1
 
 /bluerov/controller/lights_controller:
