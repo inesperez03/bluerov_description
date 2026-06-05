@@ -304,7 +304,9 @@
 
     <sensor name="dvl_sensor">
       <param name="interface">sura_hardware_interface/DvlInterface</param>
-      <param name="broadcaster">dvl_broadcaster</param>
+      <param name="broadcaster">dvl75_velocity_broadcaster</param>
+      <param name="broadcaster">dvl75_altitude_broadcaster</param>
+      <param name="broadcaster">dvl75_gps_broadcaster</param>
       <param name="read_rate_hz">20.0</param>
       <param name="frame_id">$(arg robot_name)/dvl_link</param>
       <param name="dvl_ip">192.168.1.236</param>
@@ -333,6 +335,7 @@
 
     <sensor name="battery_sensor">
       <param name="interface">sura_hardware_interface/BatteryInterface</param>
+      <param name="stonefish_topic">/$(arg robot_name)/stonefish/sensors/battery</param>
       <param name="broadcaster">battery_broadcaster</param>
       <param name="read_rate_hz">2.0</param>
       <param name="frame_id">$(arg robot_name)/base_link</param>
@@ -343,6 +346,7 @@
 
     <sensor name="leak_sensor">
       <param name="interface">sura_hardware_interface/LeakInterface</param>
+      <param name="stonefish_topic">/$(arg robot_name)/stonefish/sensors/leak</param>
       <param name="broadcaster">leak_broadcaster</param>
       <param name="read_rate_hz">1.0</param>
       <param name="frame_id">$(arg robot_name)/base_link</param>
