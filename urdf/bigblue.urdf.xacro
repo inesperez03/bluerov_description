@@ -23,7 +23,7 @@
   <joint name="$(arg robot_name)/imu_joint" type="fixed">
     <parent link="$(arg robot_name)/base_link"/>
     <child link="$(arg robot_name)/imu_link"/>
-    <origin xyz="0.05 0.0 -0.05" rpy="-1.57 0 0"/>
+    <origin xyz="0.1043 -0.083264 -0.0547" rpy="-1.57 0 0"/>
   </joint>
 
   <link name="$(arg robot_name)/dvl_link" tf_type="sensor"/>
@@ -94,6 +94,13 @@
     <parent link="$(arg robot_name)/camera_left"/>
     <child link="$(arg robot_name)/camera_left/optical_frame"/>
     <origin xyz="0.0 0.0 0.0" rpy="-1.57 3.14 -1.57"/>
+  </joint>
+  
+  <link name="zed_camera_camera_link" tf_type="fixed"/>
+  <joint name="$(arg robot_name)/zed_camera_joint" type="fixed">
+    <parent link="$(arg robot_name)/base_link"/>
+    <child link="zed_camera_camera_link"/>
+    <origin xyz="0.195659 0.1 -0.04" rpy="3.1416 0.0 0.0"/>
   </joint>
 
   <!-- Thrusters -->
@@ -293,7 +300,7 @@
       <state_interface name="sample_time.nanosec"/>
     </sensor>
 
-    <sensor name="pressure_sensor">
+    <!-- <sensor name="pressure_sensor">
       <param name="interface">sura_hardware_interface/PressureInterface</param>
       <param name="broadcaster">pressure_broadcaster</param>
       <param name="read_rate_hz">50.0</param>
@@ -304,7 +311,7 @@
       <param name="stonefish_topic">/$(arg robot_name)/stonefish/sensors/pressure</param>
       <param name="msg_type">sensor_msgs/msg/FluidPressure</param>
       <state_interface name="fluid_pressure"/>
-    </sensor>
+    </sensor> -->
 
     <sensor name="dvl_sensor">
       <param name="interface">sura_hardware_interface/DvlInterface</param>
