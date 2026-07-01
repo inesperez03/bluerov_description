@@ -109,12 +109,12 @@
     kd_z: 0.0
     antiwindup_z: 1.0
 
-    kp_roll: 0.0
+    kp_roll: 0.2
     ki_roll: 5.0
     kd_roll: 0.0
     antiwindup_roll: 1.0
 
-    kp_pitch: 0.0
+    kp_pitch: 0.2
     ki_pitch: 5.0
     kd_pitch: 0.0
     antiwindup_pitch: 1.0
@@ -135,17 +135,17 @@
     body_velocity_controller_name: controller/body_velocity
     setpoint_frame_id: world_ned
 
-    kp_x: 1.0
-    ki_x: 0.5
+    kp_x: 0.3
+    ki_x: 0.01
     kd_x: 0.0
-    antiwindup_x: 0.5
+    antiwindup_x: 1.0
 
-    kp_y: 1.0
-    ki_y: 0.5
+    kp_y: 0.3
+    ki_y: 0.01
     kd_y: 0.0
-    antiwindup_y: 0.5
+    antiwindup_y: 1.0
 
-    kp_z: 1.0
+    kp_z: 0.5
     ki_z: 0.5
     kd_z: 0.0
     antiwindup_z: 0.5
@@ -160,8 +160,8 @@
     kd_pitch: 0.0
     antiwindup_pitch: 0.5
 
-    kp_yaw: 1.0
-    ki_yaw: 0.5
+    kp_yaw: 0.3
+    ki_yaw: 0.01
     kd_yaw: 0.0
     antiwindup_yaw: 0.5
 
@@ -248,7 +248,7 @@
     kd_pitch: 0.0
     antiwindup_pitch: 0.5
 
-    kp_yaw: 8.0
+    kp_yaw: 4.0
     ki_yaw: 1.0
     kd_yaw: 0.0
     antiwindup_yaw: 0.5

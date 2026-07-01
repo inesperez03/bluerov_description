@@ -26,6 +26,13 @@
     <origin xyz="0.1043 -0.083264 -0.0547" rpy="-1.57 0 0"/>
   </joint>
 
+  <link name="$(arg robot_name)/imu_link_flu" tf_type="sensor"/>
+  <joint name="$(arg robot_name)/imu_flu_joint" type="fixed">
+    <parent link="$(arg robot_name)/imu_link"/>
+    <child link="$(arg robot_name)/imu_link_flu"/>
+    <origin xyz="0 0 0" rpy="3.14159265359 0 0.0"/>
+  </joint>
+
   <link name="$(arg robot_name)/dvl_link" tf_type="sensor"/>
   <joint name="$(arg robot_name)/dvl_joint" type="fixed">
     <parent link="$(arg robot_name)/base_link"/>
@@ -44,7 +51,7 @@
   <joint name="$(arg robot_name)/camera_down_joint" type="fixed">
     <parent link="$(arg robot_name)/base_link"/>
     <child link="$(arg robot_name)/camera_down"/>
-    <origin xyz="0.006 0.13 0.143" rpy="0 0 0.0"/>
+    <origin xyz="0.006 -0.13 0.143" rpy="0 0 0.0"/>
   </joint>
 
   <link name="$(arg robot_name)/camera_down/optical_frame" tf_type="sensor"/>
@@ -267,7 +274,7 @@
 
     <sensor name="imu_sensor">
       <param name="interface">sura_hardware_interface/ImuInterface</param>
-      <param name="broadcaster">imu_broadcaster</param>
+      <param name="broadcaster">sensor/imu_broadcaster</param>
       <param name="read_rate_hz">100.0</param>
       <param name="frame_id">$(arg robot_name)/imu_link</param>
       <param name="stonefish_topic">/$(arg robot_name)/stonefish/sensors/imu</param>
@@ -288,7 +295,7 @@
 
     <sensor name="magnetometer_sensor">
       <param name="interface">sura_hardware_interface/MagnetometerInterface</param>
-      <param name="broadcaster">magnetometer_broadcaster</param>
+      <param name="broadcaster">sensor/magnetometer_broadcaster</param>
       <param name="read_rate_hz">100.0</param>
       <param name="frame_id">$(arg robot_name)/imu_link</param>
       <param name="stonefish_topic">/$(arg robot_name)/stonefish/sensors/magnetometer</param>
@@ -300,9 +307,9 @@
       <state_interface name="sample_time.nanosec"/>
     </sensor>
 
-    <!-- <sensor name="pressure_sensor">
+    <sensor name="pressure_sensor">
       <param name="interface">sura_hardware_interface/PressureInterface</param>
-      <param name="broadcaster">pressure_broadcaster</param>
+      <param name="broadcaster">sensor/pressure_broadcaster</param>
       <param name="read_rate_hz">50.0</param>
       <param name="frame_id">$(arg robot_name)/pressure_link</param>
       <param name="i2c_bus">6</param>
@@ -311,19 +318,19 @@
       <param name="stonefish_topic">/$(arg robot_name)/stonefish/sensors/pressure</param>
       <param name="msg_type">sensor_msgs/msg/FluidPressure</param>
       <state_interface name="fluid_pressure"/>
-    </sensor> -->
+    </sensor>
 
     <sensor name="dvl_sensor">
       <param name="interface">sura_hardware_interface/DvlInterface</param>
-      <param name="broadcaster">dvl75_velocity_broadcaster</param>
-      <param name="broadcaster">dvl75_altitude_broadcaster</param>
-      <param name="broadcaster">dvl75_gps_broadcaster</param>
+      <param name="broadcaster">sensor/dvl75_velocity_broadcaster</param>
+      <param name="broadcaster">sensor/dvl75_altitude_broadcaster</param>
+      <param name="broadcaster">sensor/dvl75_gps_broadcaster</param>
       <param name="read_rate_hz">20.0</param>
       <param name="frame_id">$(arg robot_name)/dvl_link</param>
       <param name="dvl_ip">192.168.1.236</param>
       <param name="dvl_listen_port">27000</param>
       <param name="dvl_command_port">50000</param>
-      <param name="dvl_min_confidence">50.0</param>
+      <param name="dvl_min_confidence">10.0</param>
       <param name="dvl_timeout_s">1.0</param>
       <param name="sim_dvl_confidence">100.0</param>
       <param name="stonefish_topic">/$(arg robot_name)/stonefish/sensors/dvl</param>
@@ -347,7 +354,7 @@
     <sensor name="battery_sensor">
       <param name="interface">sura_hardware_interface/BatteryInterface</param>
       <param name="stonefish_topic">/$(arg robot_name)/stonefish/sensors/battery</param>
-      <param name="broadcaster">battery_broadcaster</param>
+      <param name="broadcaster">sensor/battery_broadcaster</param>
       <param name="read_rate_hz">2.0</param>
       <param name="frame_id">$(arg robot_name)/base_link</param>
       <state_interface name="voltage"/>
@@ -358,7 +365,7 @@
     <sensor name="leak_sensor">
       <param name="interface">sura_hardware_interface/LeakInterface</param>
       <param name="stonefish_topic">/$(arg robot_name)/stonefish/sensors/leak</param>
-      <param name="broadcaster">leak_broadcaster</param>
+      <param name="broadcaster">sensor/leak_broadcaster</param>
       <param name="read_rate_hz">1.0</param>
       <param name="frame_id">$(arg robot_name)/base_link</param>
       <state_interface name="leak"/>
@@ -376,7 +383,7 @@
       <command_interface name="pwm_us"/>
       <state_interface name="pwm_us"/>
       <param name="channel">11</param>
-      <param name="controller">lights_controller</param>
+      <param name="controller">actuator/lights_controller</param>
     </joint>
   </ros2_control>
 
