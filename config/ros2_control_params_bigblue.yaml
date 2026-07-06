@@ -2,69 +2,63 @@
   ros__parameters:
     update_rate: 200
 
-    hardware_components_initial_state:
-      inactive:
-        - ThrustersSystem
-        - SensorsSystem
-        - ActuatorsSystem
-
     common_controllers:
-      - controller/thruster_test_controller
+      - thruster_test_controller
 
     auv_controllers:
-      - controller/body_force
-      - controller/body_velocity
-      - controller/position_hold
-      - controller/stabilize
-      - controller/depth_hold
+      - body_force
+      - body_velocity
+      - position_hold
+      - stabilize
+      - depth_hold
 
-    controller/thruster_test_controller:
+    thruster_test_controller:
       type: forward_command_controller/ForwardCommandController
 
-    controller/body_force:
+    body_force:
       type: sura_controllers/auv/BodyForceController
     
-    controller/body_velocity:
+    body_velocity:
       type: sura_controllers/auv/BodyVelocityController
 
-    controller/position_hold:
+    position_hold:
       type: sura_controllers/auv/PositionHoldController
 
-    controller/stabilize:
+    stabilize:
       type: sura_controllers/auv/StabilizeController
 
-    controller/depth_hold:
+    depth_hold:
       type: sura_controllers/auv/DepthHoldController
 
-    sensor/imu_broadcaster:
+    imu_broadcaster:
       type: sura_sensors/ImuBroadcaster
 
-    sensor/magnetometer_broadcaster:
+    magnetometer_broadcaster:
       type: sura_sensors/MagnetometerBroadcaster
 
-    sensor/pressure_broadcaster:
+    pressure_broadcaster:
       type: sura_sensors/PressureBroadcaster
 
-    sensor/dvl75_velocity_broadcaster:
+    dvl75_velocity_broadcaster:
       type: sura_sensors/DvlVelBroadcaster
 
-    sensor/dvl75_altitude_broadcaster:
+    dvl75_altitude_broadcaster:
       type: sura_sensors/Dvl75AltitudeBroadcaster
 
-    sensor/dvl75_gps_broadcaster:
+    dvl75_gps_broadcaster:
       type: sura_sensors/Dvl75GpsBroadcaster
 
-    sensor/battery_broadcaster:
+    battery_broadcaster:
       type: sura_sensors/BatteryBroadcaster
 
-    sensor/leak_broadcaster:
+    leak_broadcaster:
       type: sura_sensors/LeakBroadcaster
 
-    actuator/lights_controller:
+    lights_controller:
       type: forward_command_controller/ForwardCommandController
 
 # TODO: estos nombres de los joints tiene que leerlos del xacro de los que son tipo thrusters y en el orden que toca 
-/bluerov/controller/controller/thruster_test_controller:
+/bluerov/controller/thruster_test_controller:
   ros__parameters:
     joints:
       - bluerov/Thruster_R_FORWARD_FRONT
@@ -77,14 +71,14 @@
       - bluerov/Thruster_L_UP_REAR
     interface_name: effort
 
-/bluerov/controller/controller/body_force:
+/bluerov/controller/body_force:
   ros__parameters:
     debug.enabled: true
     input_topic: /bluerov/controller/body_force/command
     output_topic: /bluerov/controller/body_force/output
     wrench_output_topic: /bluerov/controller/body_force/wrench
 
-/bluerov/controller/controller/body_velocity:
+/bluerov/controller/body_velocity:
   ros__parameters:
     debug.enabled: true
     setpoint_topic: /bluerov/controller/body_velocity/setpoint
@@ -92,7 +86,7 @@
     feedforward_topic: /bluerov/controller/depth_hold/feedforward
     output_topic: /bluerov/controller/body_velocity/output
     pid_terms_topic: /bluerov/controller/body_velocity/pid_terms
-    body_force_controller_name: controller/body_force
+    body_force_controller_name: body_force
 
     kp_x: 30.0
     ki_x: 6.0
@@ -124,7 +118,7 @@
     kd_yaw: 0.0
     antiwindup_yaw: 1.0
 
-/bluerov/controller/controller/position_hold:
+/bluerov/controller/position_hold:
   ros__parameters:
     debug.enabled: true
     setpoint_topic: /bluerov/controller/position_hold/setpoint
@@ -132,7 +126,8 @@
     navigator_topic: /bluerov/navigator/navigation
     output_topic: /bluerov/controller/position_hold/output
     pid_terms_topic: /bluerov/controller/position_hold/pid_terms
-    body_velocity_controller_name: controller/body_velocity
+    body_velocity_controller_name: body_velocity
+    body_velocity_setpoint_topic: /bluerov/controller/body_velocity/setpoint
     setpoint_frame_id: world_ned
 
     kp_x: 0.3
@@ -146,7 +141,7 @@
     antiwindup_y: 1.0
 
     kp_z: 0.5
-    ki_z: 0.5
+    ki_z: 0.01
     kd_z: 0.0
     antiwindup_z: 0.5
 
@@ -173,7 +168,7 @@
     angular_feedforward_threshold: 0.001
     feedforward_timeout: 0.25
 
-/bluerov/controller/controller/stabilize:
+/bluerov/controller/stabilize:
   ros__parameters:
     debug.enabled: true
     feedforward_topic: /bluerov/controller/stabilize/feedforward
@@ -181,7 +176,7 @@
     setpoint_topic: /bluerov/controller/stabilize/set_point
     output_topic: /bluerov/controller/stabilize/output
     pid_terms_topic: /bluerov/controller/stabilize/pid_terms
-    body_force_controller_name: controller/body_force
+    body_force_controller_name: body_force
     enable_roll_pitch_service_name: /bluerov/controller/stabilize/enable_roll_pitch
     disable_roll_pitch_service_name: /bluerov/controller/stabilize/disable_roll_pitch
     allow_roll_pitch: false
@@ -211,7 +206,7 @@
     roll_command_threshold: 0.001
     pitch_command_threshold: 0.001
 
-/bluerov/controller/controller/depth_hold:
+/bluerov/controller/depth_hold:
   ros__parameters:
     debug.enabled: true
     feedforward_topic: /bluerov/controller/depth_hold/feedforward
@@ -219,7 +214,7 @@
     setpoint_topic: /bluerov/controller/depth_hold/set_point
     output_topic: /bluerov/controller/depth_hold/output
     pid_terms_topic: /bluerov/controller/depth_hold/pid_terms
-    body_force_controller_name: controller/body_force
+    body_force_controller_name: body_force
     enable_roll_pitch_service_name: /bluerov/controller/depth_hold/enable_roll_pitch
     disable_roll_pitch_service_name: /bluerov/controller/depth_hold/disable_roll_pitch
     allow_roll_pitch: false
@@ -262,21 +257,21 @@
     command_threshold: 0.001
     depth_command_threshold: 0.001
 
-/bluerov/controller/sensor/imu_broadcaster:
+/bluerov/controller/imu_broadcaster:
   ros__parameters:
     sensor_name: imu_sensor
     frame_id: bluerov/imu_link
     topic_name: /bluerov/controller/imu_broadcaster/imu
     update_rate: 100
 
-/bluerov/controller/sensor/magnetometer_broadcaster:
+/bluerov/controller/magnetometer_broadcaster:
   ros__parameters:
     sensor_name: magnetometer_sensor
     frame_id: bluerov/imu_link
     topic_name: /bluerov/controller/magnetometer_broadcaster/mag
     update_rate: 100
 
-/bluerov/controller/sensor/pressure_broadcaster:
+/bluerov/controller/pressure_broadcaster:
   ros__parameters:
     sensor_name: pressure_sensor
     frame_id: bluerov/base_link
@@ -284,7 +279,7 @@
     pressure_variance: 0.0
     update_rate: 100
 
-/bluerov/controller/sensor/dvl75_velocity_broadcaster:
+/bluerov/controller/dvl75_velocity_broadcaster:
   ros__parameters:
     sensor_name: dvl_sensor
     frame_id: bluerov/dvl_link
@@ -294,14 +289,14 @@
     max_linear_velocity_covariance: 999.0
     angular_velocity_covariance: 99999.0
 
-/bluerov/controller/sensor/dvl75_altitude_broadcaster:
+/bluerov/controller/dvl75_altitude_broadcaster:
   ros__parameters:
     sensor_name: dvl_sensor
     frame_id: bluerov/dvl_link
     topic_name: /bluerov/sensors/dvl/altitude
     update_rate: 50
 
-/bluerov/controller/sensor/dvl75_gps_broadcaster:
+/bluerov/controller/dvl75_gps_broadcaster:
   ros__parameters:
     sensor_name: dvl_sensor
     frame_id: bluerov/dvl_link
@@ -309,21 +304,21 @@
     update_rate: 2
     position_covariance: 4.0
 
-/bluerov/controller/sensor/battery_broadcaster:
+/bluerov/controller/battery_broadcaster:
   ros__parameters:
     sensor_name: battery_sensor
     topic_name: /bluerov/sensors/battery
     update_rate: 1
 
-/bluerov/controller/sensor/leak_broadcaster:
+/bluerov/controller/leak_broadcaster:
   ros__parameters:
     sensor_name: leak_sensor
     frame_id: bluerov/main_cylinder
     topic_name: /bluerov/sensors/leak
     update_rate: 1
 
-/bluerov/controller/actuator/lights_controller:
+/bluerov/controller/lights_controller:
   ros__parameters:
     joints:
-      - bluerov/bluerov_lights
+      - bluerov/lights_joint
     interface_name: pwm_us
