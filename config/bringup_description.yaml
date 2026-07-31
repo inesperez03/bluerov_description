@@ -13,13 +13,13 @@ ros2_control:
 
 diagnostics:
   params_package: sura_diagnostics
-  params: config/bluerov_diagnostics.yaml
+  params: config/bluegros_diagnostics.yaml
 
 cameras:
   down_camera:
-    enabled: false
+    enabled: true
     driver: usb_cam
-    aruco: false
+    aruco: true
   front_camera:
     enabled: false
     driver: usb_cam
