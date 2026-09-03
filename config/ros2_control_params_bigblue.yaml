@@ -177,6 +177,7 @@
     output_topic: /bluerov/controller/stabilize/output
     pid_terms_topic: /bluerov/controller/stabilize/pid_terms
     body_force_controller_name: body_force
+    body_force_command_topic: /bluerov/controller/body_force/command
     enable_roll_pitch_service_name: /bluerov/controller/stabilize/enable_roll_pitch
     disable_roll_pitch_service_name: /bluerov/controller/stabilize/disable_roll_pitch
     allow_roll_pitch: false
@@ -215,6 +216,7 @@
     output_topic: /bluerov/controller/depth_hold/output
     pid_terms_topic: /bluerov/controller/depth_hold/pid_terms
     body_force_controller_name: body_force
+    body_force_command_topic: /bluerov/controller/body_force/command
     enable_roll_pitch_service_name: /bluerov/controller/depth_hold/enable_roll_pitch
     disable_roll_pitch_service_name: /bluerov/controller/depth_hold/disable_roll_pitch
     allow_roll_pitch: false
