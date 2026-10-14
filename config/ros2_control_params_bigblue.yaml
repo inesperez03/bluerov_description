@@ -89,12 +89,12 @@
     body_force_controller_name: body_force
 
     kp_x: 30.0
-    ki_x: 6.0
+    ki_x: 3.0
     kd_x: 0.0
     antiwindup_x: 1.0
 
     kp_y: 30.0
-    ki_y: 6.0
+    ki_y: 3.0
     kd_y: 0.0
     antiwindup_y: 1.0
 
@@ -113,8 +113,8 @@
     kd_pitch: 0.0
     antiwindup_pitch: 1.0
 
-    kp_yaw: 5.0
-    ki_yaw: 0.0
+    kp_yaw: 1.0
+    ki_yaw: 0.01
     kd_yaw: 0.0
     antiwindup_yaw: 1.0
 
@@ -130,12 +130,12 @@
     body_velocity_setpoint_topic: /bluerov/controller/body_velocity/setpoint
     setpoint_frame_id: world_ned
 
-    kp_x: 1.0
+    kp_x: 0.7
     ki_x: 0.0
     kd_x: 0.0
     antiwindup_x: 0.5
 
-    kp_y: 1.0
+    kp_y: 0.7
     ki_y: 0.0
     kd_y: 0.0
     antiwindup_y: 0.5
@@ -155,8 +155,8 @@
     kd_pitch: 0.0
     antiwindup_pitch: 0.5
 
-    kp_yaw: 0.3
-    ki_yaw: 0.01
+    kp_yaw: 1.0
+    ki_yaw: 0.0
     kd_yaw: 0.0
     antiwindup_yaw: 0.5
 
@@ -240,8 +240,8 @@
     kd_roll: 0.0
     antiwindup_roll: 0.5
 
-    kp_pitch: 4.0
-    ki_pitch: 1.0
+    kp_pitch: 3.0
+    ki_pitch: 0.5
     kd_pitch: 0.0
     antiwindup_pitch: 0.5
 

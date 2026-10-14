@@ -107,7 +107,8 @@
   <joint name="$(arg robot_name)/zed_camera_joint" type="fixed">
     <parent link="$(arg robot_name)/base_link"/>
     <child link="zed_camera_camera_link"/>
-    <origin xyz="0.195659 0.1 -0.04" rpy="3.1416 0.0 0.0"/>
+    <!-- <origin xyz="0.195659 0.1 -0.04" rpy="3.1416 0.0 0.0"/> -->
+    <origin xyz="0.195659 0.1 -0.04" rpy="3.9266 0.0 0.0"/>
   </joint>
 
   <!-- Thrusters -->

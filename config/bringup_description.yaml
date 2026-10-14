@@ -1,7 +1,7 @@
 robot:
   name: bluerov
-  environment: sim
-  localization: sim
+  environment: real
+  localization: real
 
 description:
   package: bluerov_description
