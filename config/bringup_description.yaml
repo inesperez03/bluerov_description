@@ -21,7 +21,7 @@ cameras:
     driver: usb_cam
     aruco: true
   front_camera:
-    enabled: false
+    enabled: true
     driver: usb_cam
     aruco: false
   right_camera:
